@@ -13,7 +13,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class ServerApp {
     public static void main(String[] args) {
         new SpringApplicationBuilder(ServerApp.class)
-               //.web(false)
+                .web(false)
                 .run(args);
     }
 }
