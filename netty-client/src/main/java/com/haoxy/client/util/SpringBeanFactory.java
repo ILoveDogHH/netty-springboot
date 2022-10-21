@@ -19,6 +19,10 @@ public final class SpringBeanFactory implements ApplicationContextAware {
         return context.getBean(c);
     }
 
+    public static Object getBean(String c){
+        return context.getBean(c);
+    }
+
 
     public static <T> T getBean(String name,Class<T> clazz){
         return context.getBean(name,clazz);
@@ -28,4 +32,11 @@ public final class SpringBeanFactory implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         context = applicationContext;
     }
+
+
+
+
+
+
+
 }

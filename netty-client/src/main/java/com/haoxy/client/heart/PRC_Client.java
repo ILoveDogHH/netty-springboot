@@ -22,7 +22,6 @@ import io.netty.channel.socket.SocketChannel;
  * E-mail:hxyHelloWorld@163.com
  * github:https://github.com/haoxiaoyong1014
  */
-@Component
 public class PRC_Client {
     private final static Logger LOGGER = LoggerFactory.getLogger(PRC_Client.class);
     private EventLoopGroup group = new NioEventLoopGroup();
@@ -53,10 +52,14 @@ public class PRC_Client {
 
 
 
+
         Message sent = new MessageDefault(1,2,3, "这是个测试数据");
         socketChannel.writeAndFlush(sent);
 
     }
+
+
+
 
 
 

@@ -13,7 +13,7 @@ import java.util.List;
  * github:https://github.com/haoxiaoyong1014
  * 服务端解码器
  */
-public class HeartbeatDecoder extends ByteToMessageDecoder {
+public class ServerDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         long id = byteBuf.readLong();

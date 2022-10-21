@@ -11,7 +11,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * github:https://github.com/haoxiaoyong1014
  * 客户端编码器
  */
-public class HeartbeatEncode extends MessageToByteEncoder<CustomProtocol> {
+public class ServerEncode extends MessageToByteEncoder<CustomProtocol> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, CustomProtocol customProtocol, ByteBuf byteBuf) throws Exception {
         byteBuf.writeLong(customProtocol.getId()) ;

@@ -19,7 +19,6 @@ import io.netty.channel.socket.SocketChannel;
  * E-mail:hxyHelloWorld@163.com
  * github:https://github.com/haoxiaoyong1014
  */
-@Component
 public class HeartbeatClient {
     private final static Logger LOGGER = LoggerFactory.getLogger(HeartbeatClient.class);
     private EventLoopGroup group = new NioEventLoopGroup();
