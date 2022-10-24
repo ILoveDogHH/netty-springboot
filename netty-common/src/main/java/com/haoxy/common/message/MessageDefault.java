@@ -5,25 +5,6 @@ public class MessageDefault<T> extends MessageAbstract<T>{
         super(index, opcode, uid, data);
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public int getOpcode() {
-        return opcode;
-    }
-
-    @Override
-    public int getUid() {
-        return uid;
-    }
-
-    @Override
-    public T getObj() {
-        return data;
-    }
 
 
 

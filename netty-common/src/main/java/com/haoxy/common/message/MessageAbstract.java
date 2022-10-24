@@ -20,4 +20,27 @@ public abstract class MessageAbstract<T> implements Message{
         this.data = data;
     }
 
+
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public int getOpcode() {
+        return opcode;
+    }
+
+    @Override
+    public int getUid() {
+        return uid;
+    }
+
+    @Override
+    public T getObj() {
+        return data;
+    }
+
+
 }
