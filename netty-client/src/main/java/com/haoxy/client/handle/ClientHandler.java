@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ClientHandler extends SimpleChannelInboundHandler {
 
+
     private final static Logger LOGGER = LoggerFactory.getLogger(ClientHandler.class);
 
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -48,7 +49,6 @@ public class ClientHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object ob) throws Exception {
         Message message = (Message) ob;
-
         System.out.println(message.getId() + "," + message.getOpcode() + "," + message.getUid() + "," + message.getObj());
     }
 
