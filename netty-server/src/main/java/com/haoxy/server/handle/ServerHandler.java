@@ -1,6 +1,13 @@
 package com.haoxy.server.handle;
 
+import com.alibaba.fastjson.JSONArray;
+import com.haoxy.common.cmd.CmdException;
+import com.haoxy.common.cmd.DefaultFunctionsTable;
+import com.haoxy.common.cmd.FunctionsTable;
+import com.haoxy.common.executor.Cmd;
+import com.haoxy.common.executor.CmdDefault;
 import com.haoxy.common.message.Message;
+import com.haoxy.common.message.Receive;
 import com.haoxy.common.model.CustomProtocol;
 import com.haoxy.server.util.NettySocketHolder;
 import io.netty.buffer.ByteBuf;
@@ -20,7 +27,15 @@ import org.slf4j.LoggerFactory;
  * E-mail:hxyHelloWorld@163.com
  * github:https://github.com/haoxiaoyong1014
  */
-public class ServerHandler extends SimpleChannelInboundHandler {
+public class ServerHandler<Result> extends SimpleChannelInboundHandler {
+    Cmd cmd;
+
+
+
+
+    public ServerHandler() throws CmdException {
+        cmd = new CmdDefault("com.haoxy.server.controller");
+    }
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
     private static final ByteBuf HEART_BEAT = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer(new CustomProtocol(123456L, "pong").toString(), CharsetUtil.UTF_8));
@@ -39,8 +54,8 @@ public class ServerHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object ob) throws Exception {
-        Message message = (Message) ob;
-        System.out.println(message.getId() + "," + message.getOpcode() + "," + message.getUid() + "," + message.getObj());
+        Receive receive = (Receive) ob;
+        Result result = (Result) cmd.exe(receive);
     }
 
 
