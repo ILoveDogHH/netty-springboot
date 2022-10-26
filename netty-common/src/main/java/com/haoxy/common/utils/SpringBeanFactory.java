@@ -1,4 +1,4 @@
-package com.haoxy.client.util;
+package com.haoxy.common.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +18,12 @@ public final class SpringBeanFactory implements ApplicationContextAware {
     public static <T> T getBean(Class<T> c){
         return context.getBean(c);
     }
+
+
+    public static Object getBean(String name){
+        return context.getBean(name);
+    }
+
 
 
     public static <T> T getBean(String name,Class<T> clazz){
