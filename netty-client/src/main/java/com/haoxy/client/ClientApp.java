@@ -1,5 +1,7 @@
 package com.haoxy.client;
 
+import com.haoxy.common.proxy.RemoteService;
+import com.haoxy.server.controller.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,5 +14,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ClientApp {
     public static void main(String[] args) {
         SpringApplication.run(ClientApp.class,args);
+
+
+        //获取动态代理的HelloService的“真实对象（其实内部不是真实的，被换成了调用远程方法）”
+        HelloService helloService = RemoteService.newRemoteProxyObject(HelloService.class);
+        String result = helloService.sayHello("yyf");
+        System.out.println(result);
     }
 }

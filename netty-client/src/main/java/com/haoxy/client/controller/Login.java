@@ -12,7 +12,6 @@ public class Login {
 
     private static int c = 0;
 
-    @Bean(destroyMethod = "myDestory")
     public String getLogin(){
         c++;
         System.out.println("cccccccc");
