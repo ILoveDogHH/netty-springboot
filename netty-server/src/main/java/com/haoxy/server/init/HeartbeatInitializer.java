@@ -3,13 +3,9 @@ package com.haoxy.server.init;
 import com.haoxy.common.code.MyDecoder;
 import com.haoxy.common.code.MyEncoder;
 import com.haoxy.common.proxy.MyServerHandler;
-import com.haoxy.common.proxy.ProxyHandler;
 import com.haoxy.common.proxy.RpcRequest;
-import com.haoxy.server.encode.ServerDecoder;
-import com.haoxy.server.handle.HeartBeatSimpleHandle;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
-import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  * Created by haoxy on 2018/10/17.
