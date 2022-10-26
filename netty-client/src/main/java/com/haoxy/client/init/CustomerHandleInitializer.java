@@ -1,16 +1,11 @@
 package com.haoxy.client.init;
 
-import com.haoxy.client.handle.ClientHandler;
 import com.haoxy.common.code.MyDecoder;
 import com.haoxy.common.code.MyEncoder;
-import com.haoxy.common.code.ServerDecoder;
-import com.haoxy.common.code.ServerEncode;
 import com.haoxy.common.proxy.MyClientHandler;
-import com.haoxy.common.proxy.ProxyHandler;
 import com.haoxy.common.proxy.RpcRequest;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
-import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  * Created by haoxy on 2018/10/17.
