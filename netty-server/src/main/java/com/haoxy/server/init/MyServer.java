@@ -1,6 +1,5 @@
-package com.haoxy.server.heart;
+package com.haoxy.server.init;
 
-import com.haoxy.server.init.InitializerServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
