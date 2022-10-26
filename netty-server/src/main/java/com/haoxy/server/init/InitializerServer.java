@@ -19,7 +19,7 @@ public class InitializerServer extends ChannelInitializer<Channel> {
                 .addLast(new ServerEncode())
                 .addLast(new ServerDecoder())
                 //五秒没有收到消息 将IdleStateHandler 添加到 ChannelPipeline 中
-                .addLast(new IdleStateHandler(0, 0, 0))
+               // .addLast(new IdleStateHandler(0, 0, 0))
                 .addLast(new ServerHandler());
     }
 }

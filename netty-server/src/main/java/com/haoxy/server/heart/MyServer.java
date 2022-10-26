@@ -22,9 +22,9 @@ import java.net.InetSocketAddress;
  * github:https://github.com/haoxiaoyong1014
  */
 @Component
-public class RPC_Server {
+public class MyServer {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(RPC_Server.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(MyServer.class);
     /**
      * NioEventLoopGroup是一个处理I / O操作的多线程事件循环。 Netty为不同类型的传输提供各种EventLoopGroup实现。
      * 我们在此示例中实现了服务器端应用程序，因此将使用两个NioEventLoopGroup。第一个，通常称为“老板”，接受传入连接。第二个，通常称为“工人”，
