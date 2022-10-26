@@ -1,9 +1,6 @@
 package com.haoxy.client.heart;
 
 import com.haoxy.client.init.CustomerHandleInitializer;
-import com.haoxy.common.message.Message;
-import com.haoxy.common.message.MessageDefault;
-import com.haoxy.common.model.CustomProtocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -23,8 +20,8 @@ import io.netty.channel.socket.SocketChannel;
  * github:https://github.com/haoxiaoyong1014
  */
 @Component
-public class PRC_Client {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PRC_Client.class);
+public class MyClient {
+    private final static Logger LOGGER = LoggerFactory.getLogger(MyClient.class);
     private EventLoopGroup group = new NioEventLoopGroup();
     @Value("${netty.server.port}")
     private int nettyPort;
