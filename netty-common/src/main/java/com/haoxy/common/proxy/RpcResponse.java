@@ -1,4 +1,4 @@
-package top.yuyufeng.rpc;
+package com.haoxy.common.proxy;
 
 /**
  * Created by yuyufeng on 2017/8/28.

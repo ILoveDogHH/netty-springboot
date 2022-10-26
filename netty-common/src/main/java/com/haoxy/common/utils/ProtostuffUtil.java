@@ -1,4 +1,4 @@
-package top.yuyufeng.rpc.utils;
+package com.haoxy.common.utils;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;

@@ -1,4 +1,4 @@
-package top.yuyufeng.rpc.client;
+package com.haoxy.common.proxy;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

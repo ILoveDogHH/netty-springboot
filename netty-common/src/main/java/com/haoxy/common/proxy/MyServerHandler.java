@@ -1,15 +1,10 @@
-package top.yuyufeng.rpc.server;
+package com.haoxy.common.proxy;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import top.yuyufeng.rpc.RpcRequest;
-import top.yuyufeng.rpc.RpcResponse;
-import top.yuyufeng.rpc.exception.RpcException;
-import top.yuyufeng.rpc.utils.ProtostuffUtil;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,13 +21,14 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         RpcRequest rpcRequest = (RpcRequest) msg;
-        Class clazz = RegisterServicesCenter.getService(rpcRequest.getServiceName());
+        // Class clazz = RegisterServicesCenter.getService(rpcRequest.getServiceName());
+        Class clazz = null;
         if (clazz == null) {
-            throw new RpcException("没有找到类 " + rpcRequest.getServiceName());
+            throw new Exception("没有找到类 " + rpcRequest.getServiceName());
         }
         Method method = clazz.getMethod(rpcRequest.getMethodName(), rpcRequest.getParameterTypes());
         if (method == null) {
-            throw new RpcException("没有找到相应方法 " + rpcRequest.getMethodName());
+            throw new Exception("没有找到相应方法 " + rpcRequest.getMethodName());
         }
         //执行真正要调用的方法。
         Object object = serviceObjects.get(clazz.getName());

@@ -1,8 +1,4 @@
-package top.yuyufeng.rpc;
-
-import java.io.Serializable;
-import java.net.InetSocketAddress;
-import java.util.Arrays;
+package com.haoxy.common.proxy;
 
 /**
  * created by yuyufeng on 2017/8/19.
