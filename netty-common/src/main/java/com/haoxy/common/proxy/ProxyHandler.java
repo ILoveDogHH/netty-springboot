@@ -20,14 +20,10 @@ public class ProxyHandler implements InvocationHandler {
     }
 
     private Object request(RpcRequest rpcRequest) throws ClassNotFoundException {
-//        //获取需要请求的地址
-//        remoteAddress = ClientCluster.getServerIPByRandom(rpcRequest.getServiceName());
-//        if (remoteAddress == null) {
-//            return null;
-//        }
-//        Object result;
-//        RpcResponse rpcResponse = (RpcResponse) MyNettyClient.send(rpcRequest,remoteAddress);
-//        result = rpcResponse.getResult();
+
+        Object result;
+        RpcResponse rpcResponse = (RpcResponse) MyNettyClient.send(rpcRequest,remoteAddress);
+        result = rpcResponse.getResult();
         return "";
     }
 
