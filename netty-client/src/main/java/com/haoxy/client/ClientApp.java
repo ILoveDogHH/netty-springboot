@@ -1,6 +1,6 @@
 package com.haoxy.client;
 
-import com.haoxy.common.proxy.RemoteService;
+import com.haoxy.client.init.RemoteService;
 import com.haoxy.server.controller.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class ClientApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SpringApplication.run(ClientApp.class,args);
 
 

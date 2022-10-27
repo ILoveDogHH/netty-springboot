@@ -22,7 +22,7 @@ import java.net.InetSocketAddress;
  * @date 2017/8/28
  */
 public class MyNettyClient {
-    private static Integer TIMEOUT = 1000;
+    private static Integer TIMEOUT = 10000;
 
     public static Object send(RpcRequest rpcRequest, InetSocketAddress inetSocketAddress) {
         final MyClientHandler myClientHandler = new MyClientHandler();

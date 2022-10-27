@@ -1,4 +1,4 @@
-package com.haoxy.common.proxy;
+package com.haoxy.client.init;
 
 import java.lang.reflect.Proxy;
 
@@ -13,7 +13,7 @@ public class RemoteService {
      * @return
      */
     public static <T> T newRemoteProxyObject(final Class<?> service) {
-        return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class[]{service}, new ProxyHandler());
+        return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class[]{service}, new ProxyHandler(service));
     }
 
 
