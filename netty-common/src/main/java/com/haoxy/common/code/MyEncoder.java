@@ -17,10 +17,8 @@ public class MyEncoder  extends MessageToByteEncoder {
 
     @Override
     public void encode(ChannelHandlerContext ctx, Object in, ByteBuf out) throws Exception {
-        if (genericClass.isInstance(in)) {
-            byte[] data = ProtostuffUtil.serializer(in);
-            out.writeInt(data.length);
-            out.writeBytes(data);
-        }
+        byte[] data = ProtostuffUtil.serializer(in);
+        out.writeInt(data.length);
+        out.writeBytes(data);
     }
 }
