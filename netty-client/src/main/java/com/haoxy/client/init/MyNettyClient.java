@@ -10,6 +10,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.FutureListener;
 
 
 import java.net.InetSocketAddress;
@@ -44,9 +46,13 @@ public class MyNettyClient {
                         }
                     });
 
-            ChannelFuture future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).sync();
+            ChannelFuture future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).addListener(new FutureListener<Object>(){
+                @Override
+                public void operationComplete(Future<Object> objectFuture) throws Exception {
+                    System.out.println("链接完成");
+                }
+            }).sync();
             future.channel().writeAndFlush(rpcRequest);
-
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
