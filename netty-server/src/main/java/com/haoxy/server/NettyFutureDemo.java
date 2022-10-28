@@ -26,6 +26,12 @@ public class NettyFutureDemo {
                 System.out.println("计算结果:："+objectFuture.get());
             }
         }).sync();
+        f.addListener(new FutureListener<Object>() {
+            @Override
+            public void operationComplete(Future<Object> objectFuture) throws Exception {
+                System.out.println("计算结果2:："+objectFuture.get());
+            }
+        }).sync();
         System.out.println("主线程运算耗时:" + (System.currentTimeMillis() - l)+" ms");
         new CountDownLatch(1).await();//不让守护线程退出
     }
@@ -36,4 +42,5 @@ public class NettyFutureDemo {
             e.printStackTrace();
         }
     }
+
 }
