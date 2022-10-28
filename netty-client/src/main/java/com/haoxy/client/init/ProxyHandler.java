@@ -36,9 +36,10 @@ public class ProxyHandler implements InvocationHandler {
         //获取需要请求的地址
         InetSocketAddress address = new InetSocketAddress("127.0.0.1", 11211);
 
-        Object result;
-        RpcResponse rpcResponse = (RpcResponse) MyNettyClient.send(rpcRequest,address);
-        result = rpcResponse.getResult();
-        return result;
+//        Object result;
+//        RpcResponse rpcResponse = (RpcResponse) MyNettyClient.send(rpcRequest);
+//        result = rpcResponse.getResult();
+//        return result;
+        return null;
     }
 }

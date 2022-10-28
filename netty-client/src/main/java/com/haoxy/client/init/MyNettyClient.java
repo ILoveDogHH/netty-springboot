@@ -26,9 +26,10 @@ import java.net.InetSocketAddress;
 public class MyNettyClient {
     private static Integer TIMEOUT = 10000;
 
-    public static Object send(RpcRequest rpcRequest, InetSocketAddress inetSocketAddress) {
-        final MyClientHandler myClientHandler = new MyClientHandler();
-        // Configure the client.
+    private static ChannelFuture future;
+
+
+    public static void init(InetSocketAddress inetSocketAddress){
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
@@ -42,24 +43,21 @@ public class MyNettyClient {
                             ChannelPipeline p = ch.pipeline();
                             ch.pipeline().addLast(new MyEncoder(RpcRequest.class));
                             ch.pipeline().addLast(new MyDecoder(RpcResponse.class));
-                            ch.pipeline().addLast(myClientHandler);
+                            ch.pipeline().addLast(new MyClientHandler());
                         }
                     });
-
-            ChannelFuture future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).addListener(new FutureListener<Object>(){
-                @Override
-                public void operationComplete(Future<Object> objectFuture) throws Exception {
-                    System.out.println("链接完成");
-                }
-            }).sync();
-            future.channel().writeAndFlush(rpcRequest);
-            future.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
+            future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort());
+        }catch (Exception e){
             e.printStackTrace();
-        } finally {
-            group.shutdownGracefully();
         }
-        return myClientHandler.getResult();
+    }
+
+
+
+    public static void send(RpcRequest rpcRequest) {
+        future.channel().writeAndFlush(rpcRequest);
+        future.channel().closeFuture();
+
     }
 
 
