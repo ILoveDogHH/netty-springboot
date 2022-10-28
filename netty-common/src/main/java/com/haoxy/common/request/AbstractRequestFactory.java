@@ -1,4 +1,10 @@
-package com.jedigames.transport.message.request;
+package com.haoxy.common.request;
+
+import com.jedigames.logger.JLogger;
+import com.jedigames.transport.message.base.ReceivedMessage;
+import com.jedigames.transport.message.base.SentMessage;
+import com.jedigames.transport.message.base.SentMessageFactory;
+import com.jedigames.utils.TimeManager;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,13 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.jedigames.logger.JLogger;
-import com.jedigames.transport.message.base.ReceivedMessage;
-import com.jedigames.transport.message.base.SentMessage;
-import com.jedigames.transport.message.base.SentMessageFactory;
-import com.jedigames.utils.TimeManager;
-
-public abstract class AbstractRequestFactory implements RequestFactory {
+public abstract class AbstractRequestFactory implements com.jedigames.transport.message.request.RequestFactory {
 	private class RequestMsg<T> {
 		// 创建者, 用于查找对应的queue
 		private Object creator;

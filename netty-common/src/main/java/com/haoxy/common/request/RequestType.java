@@ -1,4 +1,4 @@
-package com.jedigames.transport.message.request;
+package com.haoxy.common.request;
 
 public enum RequestType {
 	/**

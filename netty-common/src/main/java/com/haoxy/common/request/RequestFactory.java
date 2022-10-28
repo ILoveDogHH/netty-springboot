@@ -1,5 +1,6 @@
-package com.jedigames.transport.message.request;
+package com.haoxy.common.request;
 
+import com.haoxy.common.message.MessageAbstract;
 import com.jedigames.transport.message.base.ReceivedMessage;
 
 public interface RequestFactory {
@@ -22,7 +23,7 @@ public interface RequestFactory {
 	 *            消息生成之后如何处理
 	 */
 	<T> void newRequest(Object creator, RequestType type, int uid, int opcode, T data, CallbackOnResponse onResponse,
-			CallbackOnGetMessage<T> onGetMessage);
+                        CallbackOnGetMessage<T> onGetMessage);
 	
 	/**
 	 * 检测是不是这个factory的response
@@ -30,7 +31,7 @@ public interface RequestFactory {
 	 * @param message
 	 * @return
 	 */
-	boolean isResponse(ReceivedMessage<?> message);
+	boolean isResponse(MessageAbstract<?> message);
 
 	/**
 	 * 执行message对应的callback
@@ -38,5 +39,5 @@ public interface RequestFactory {
 	 * @param message
 	 * @return
 	 */
-	boolean doCallback(ReceivedMessage<?> message);
+	boolean doCallback(MessageAbstract<?> message);
 }
