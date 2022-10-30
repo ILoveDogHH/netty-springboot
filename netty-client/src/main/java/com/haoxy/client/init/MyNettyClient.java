@@ -39,7 +39,6 @@ public class MyNettyClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
                             ch.pipeline().addLast(new MyEncoder(RpcRequest.class));
                             ch.pipeline().addLast(new MyDecoder(RpcResponse.class));
                             ch.pipeline().addLast(myClientHandler);
