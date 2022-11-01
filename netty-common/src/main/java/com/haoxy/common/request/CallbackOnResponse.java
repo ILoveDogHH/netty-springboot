@@ -1,6 +1,6 @@
 package com.haoxy.common.request;
 
-import com.jedigames.transport.message.base.ReceivedMessage;
+import com.haoxy.common.message.MessageAbstract;
 
 public interface CallbackOnResponse {
 	/**
@@ -9,16 +9,14 @@ public interface CallbackOnResponse {
 	 * 
 	 * @return
 	 */
-	default long getTimeoutMills() {
-		return -1L;
-	}
+	long getTimeoutMills();
 	/**
 	 * 消息处理
 	 * 
 	 * @param message
 	 * @throws Exception
 	 */
-	void onResponse(ReceivedMessage<?> message) throws Exception;
+	void onResponse(MessageAbstract<?> message) throws Exception;
 
 	/**
 	 * 超时处理

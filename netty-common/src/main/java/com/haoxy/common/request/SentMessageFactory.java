@@ -1,4 +1,4 @@
-package com.jedigames.transport.message.base;
+package com.haoxy.common.request;
 
 public interface SentMessageFactory<T> {
 	/**

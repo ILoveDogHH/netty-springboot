@@ -1,9 +1,9 @@
 package com.haoxy.common.message;
 
-public class ReceiveMessage<ReceiveParams> extends MessageAbstract{
+public class ReceiveMessage<T> extends MessageAbstract{
 
 
-    public ReceiveMessage(int id, int opcode, int uid, Object data) {
+    public ReceiveMessage(int id, int opcode, int uid, T data) {
         super(id, opcode, uid, data);
     }
 

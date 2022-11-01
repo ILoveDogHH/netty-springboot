@@ -1,10 +1,7 @@
 package com.haoxy.common.request;
 
-import com.jedigames.logger.JLogger;
-import com.jedigames.transport.message.base.ReceivedMessage;
-import com.jedigames.transport.message.base.SentMessage;
-import com.jedigames.transport.message.base.SentMessageFactory;
-import com.jedigames.utils.TimeManager;
+import com.haoxy.common.message.MessageAbstract;
+import com.haoxy.common.utils.TimeManager;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class AbstractRequestFactory implements com.jedigames.transport.message.request.RequestFactory {
+public abstract class AbstractRequestFactory<T> implements RequestFactory {
 	private class RequestMsg<T> {
 		// 创建者, 用于查找对应的queue
 		private Object creator;
@@ -53,12 +50,12 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 			}
 		}
 
-		private void doResponse(ReceivedMessage<?> message) {
+		private void doResponse(MessageAbstract<?> message) {
 			if (onResponse != null) {
 				try {
 					onResponse.onResponse(message);
 				} catch (Exception e) {
-					JLogger.error("error on doOnResponse", e);
+					e.printStackTrace();
 				}
 			}
 		}
@@ -151,8 +148,7 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 							break;
 						}
 					} catch (Throwable e) {
-						JLogger.fixError(e.getMessage(), e);
-						JLogger.error("error in run", e);
+						e.printStackTrace();
 					}
 				}
 				if (nextCheckTime > 0 && msgQueue.processThread != null) {
@@ -222,7 +218,6 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 		}
 	}
 
-	protected abstract <T> SentMessageFactory<T> getSendMessageFactory(int opcode, Class<T> claz);
 
 	/**
 	 * 生成新的请求
@@ -233,7 +228,6 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 	 *            消息类型RequestType:</br>
 	 *            SYNC类型, 会等待消息处理完毕, 才会开始下一个message的处理;</br>
 	 *            ASYNC类型, 如果当前没有SYNC类型的阻塞型请求, 将会
-	 * @param uid
 	 *            message的uid, 用于服务器这边做处理线程的分离
 	 * @param opcode
 	 * @param data
@@ -243,16 +237,10 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 	 *            消息生成之后如何处理
 	 */
 	@Override
-	public <T> void newRequest(Object creator, RequestType type, int uid, int opcode, T data,
+	public <T> void newRequest(Object creator, RequestType type, int opcode, T data,
 			CallbackOnResponse onResponse, CallbackOnGetMessage<T> onGetMessage) {
 		int index = getIndexAndIncrement();
-		@SuppressWarnings("unchecked")
-		SentMessageFactory<T> factory = (SentMessageFactory<T>) getSendMessageFactory(opcode, data.getClass());
-		if (factory == null) {
-			JLogger.error("new request erro: no message-factory", new Exception());
-			return;
-		}
-		SentMessage<T> message = factory.create(uid, index, opcode, data);
+		SentMessage<T> message = new SentMessage<>(index, opcode, data);
 		// 启用线程池来做消息处理
 		try {
 			RequestMsg<T> msg = new RequestMsg<>(creator, type, message, onResponse, onGetMessage);
@@ -285,8 +273,7 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 				}
 			}
 		} catch (Throwable e) {
-			JLogger.fixError(e.getMessage(), e);
-			JLogger.error("new request error: on handle", e);
+			e.printStackTrace();
 		}
 	}
 
@@ -297,7 +284,7 @@ public abstract class AbstractRequestFactory implements com.jedigames.transport.
 	 * @return
 	 */
 	@Override
-	public boolean doCallback(ReceivedMessage<?> message) {
+	public boolean doCallback(MessageAbstract<?> message) {
 		if (!requestMap.containsKey(message.getId())) {
 			return true;
 		}

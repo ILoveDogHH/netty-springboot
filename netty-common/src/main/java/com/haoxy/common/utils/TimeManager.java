@@ -1,4 +1,5 @@
-package com.jedigames.utils;
+package com.haoxy.common.utils;
+
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -6,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.jedigames.logger.JLogger;
 
 public class TimeManager {
 	private static long timeDiff = 0L;
@@ -184,7 +183,7 @@ public class TimeManager {
 		try {
 			timestamp = sdf.parse(dateString).getTime();
 		} catch (ParseException e) {
-			JLogger.error("dateString2TimestampLong error", e);
+			e.printStackTrace();
 		}
     	return timestamp;
     }
@@ -212,7 +211,6 @@ public class TimeManager {
 		try {
 			timestampLong = sdf.parse(dateString).getTime();
 		} catch (ParseException e) {
-			JLogger.error("toZeroTimestampLong error", e);
 			return 0L;
 		}
 		return timestampLong;
@@ -361,7 +359,6 @@ public class TimeManager {
 	/**
 	 * 获取给定时间戳(毫秒)是一周的第几天, 星期一是第0天, 星期二是第1天,... 星期日是第6天
 	 * 
-	 * @param timestamp
 	 * @return
 	 */
 	public static int getTimestampLongDayOfWeekMonDayZero(long timestampLong) {

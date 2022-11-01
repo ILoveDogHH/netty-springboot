@@ -1,2 +1,5 @@
-package com.haoxy.common.request;public class SubRequestSuccess {
+package com.haoxy.common.request;
+
+public interface SubRequestSuccess<T> {
+    void success(T data);
 }

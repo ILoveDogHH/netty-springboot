@@ -1,6 +1,4 @@
-package com.jedigames.transport.message.request;
-
-import com.jedigames.transport.message.base.SentMessage;
+package com.haoxy.common.request;
 
 public interface CallbackOnGetMessage<T> {
 	void callback(SentMessage<T> message);
