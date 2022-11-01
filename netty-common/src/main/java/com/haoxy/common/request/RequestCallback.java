@@ -7,7 +7,6 @@ public class RequestCallback<T> implements CallbackOnResponse{
     private SubRequestSuccess callback;
     private ChannelFuture future;
     private volatile boolean endPause = false;
-    String funName = "";
     private final static int MAX_WAIT_MILLIS = 3000;
 
     public RequestCallback(ChannelFuture future, SubRequestSuccess callback) {
