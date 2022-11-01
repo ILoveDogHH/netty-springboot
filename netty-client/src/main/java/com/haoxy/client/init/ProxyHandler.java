@@ -1,7 +1,12 @@
 package com.haoxy.client.init;
 
+import com.haoxy.common.message.MessageAbstract;
+import com.haoxy.common.opcode.Opcode;
 import com.haoxy.common.proxy.RpcRequest;
 import com.haoxy.common.proxy.RpcResponse;
+import com.haoxy.common.request.CallbackOnResponse;
+import com.haoxy.common.request.SubRequestSuccess;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -26,19 +31,14 @@ public class ProxyHandler implements InvocationHandler {
         rpcRequest.setArguments(args);
         rpcRequest.setParameterTypes(method.getParameterTypes());
         rpcRequest.setReturnType(method.getReturnType());
-
-
-        return this.request(rpcRequest);
+        final Object[] result = {};
+        MyNettyClient.newRequest(Opcode.RPC_REQUEST, rpcRequest, new SubRequestSuccess() {
+            @Override
+            public void success(Object data) {
+                result[0] = data;
+            }
+        });
+        return result[0];
     }
 
-
-    private Object request(RpcRequest rpcRequest) throws ClassNotFoundException {
-        //获取需要请求的地址
-        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 11211);
-
-        Object result;
-        RpcResponse rpcResponse = (RpcResponse) MyNettyClient.send(rpcRequest,address);
-        result = rpcResponse.getResult();
-        return result;
-    }
 }

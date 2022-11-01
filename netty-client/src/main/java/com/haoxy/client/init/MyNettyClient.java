@@ -2,18 +2,20 @@ package com.haoxy.client.init;
 
 import com.haoxy.common.code.MyDecoder;
 import com.haoxy.common.code.MyEncoder;
+import com.haoxy.common.opcode.Opcode;
 import com.haoxy.common.proxy.MyClientHandler;
 import com.haoxy.common.proxy.RpcRequest;
 import com.haoxy.common.proxy.RpcResponse;
+import com.haoxy.common.request.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.FutureListener;
+import org.springframework.stereotype.Component;
 
 
+import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 
 
@@ -23,12 +25,13 @@ import java.net.InetSocketAddress;
  * @author yuyufeng
  * @date 2017/8/28
  */
-public class MyNettyClient {
+public class MyNettyClient<T>{
     private static Integer TIMEOUT = 10000;
 
-    public static Object send(RpcRequest rpcRequest, InetSocketAddress inetSocketAddress) {
-        final MyClientHandler myClientHandler = new MyClientHandler();
-        // Configure the client.
+    private static ChannelFuture future;
+
+
+    public void init(InetSocketAddress inetSocketAddress){
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
@@ -41,25 +44,30 @@ public class MyNettyClient {
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new MyEncoder(RpcRequest.class));
                             ch.pipeline().addLast(new MyDecoder(RpcResponse.class));
-                            ch.pipeline().addLast(myClientHandler);
+                            ch.pipeline().addLast(new MyClientHandler());
                         }
                     });
-
-            ChannelFuture future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).addListener(new FutureListener<Object>(){
-                @Override
-                public void operationComplete(Future<Object> objectFuture) throws Exception {
-                    System.out.println("链接完成");
-                }
-            }).sync();
-            future.channel().writeAndFlush(rpcRequest);
-            future.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
+            future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).sync();
+        }catch (Exception e){
             e.printStackTrace();
-        } finally {
-            group.shutdownGracefully();
         }
-        return myClientHandler.getResult();
     }
+
+
+
+    public static void newRequest(int opcode, Object data, SubRequestSuccess subRequestSuccess) {
+        AbstractRequestFactory requestHandler = new RequestHandler();
+        RequestCallback response = new RequestCallback(future, subRequestSuccess);
+        requestHandler.newRequest(future,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage<RpcRequest>() {
+            @Override
+            public void callback(SentMessage<RpcRequest> message) {
+                future.channel().writeAndFlush(message);
+            }
+        });
+        response.pauseThread();
+    }
+
+
 
 
 }

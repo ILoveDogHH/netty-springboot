@@ -6,11 +6,7 @@ import com.haoxy.common.proxy.RpcRequest;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 
-/**
- * Created by haoxy on 2018/10/17.
- * E-mail:hxyHelloWorld@163.com
- * github:https://github.com/haoxiaoyong1014
- */
+
 public class InitializerServer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel channel) throws Exception {
