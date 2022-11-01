@@ -32,7 +32,7 @@ public class ProxyHandler implements InvocationHandler {
         rpcRequest.setParameterTypes(method.getParameterTypes());
         rpcRequest.setReturnType(method.getReturnType());
         final Object[] result = {};
-        MyNettyClient.getInstance().newRequest(Opcode.RPC_REQUEST, rpcRequest, new SubRequestSuccess() {
+        MyNettyClient.newRequest(Opcode.RPC_REQUEST, rpcRequest, new SubRequestSuccess() {
             @Override
             public void success(Object data) {
                 result[0] = data;

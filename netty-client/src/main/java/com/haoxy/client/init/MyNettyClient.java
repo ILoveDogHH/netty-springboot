@@ -12,8 +12,10 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.springframework.stereotype.Component;
 
 
+import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 
 
@@ -29,19 +31,7 @@ public class MyNettyClient<T>{
     private static ChannelFuture future;
 
 
-    private static MyNettyClient instance;
-
-    public static MyNettyClient getInstance(){
-        if(instance == null){
-            synchronized (MyNettyClient.class){
-                instance = new MyNettyClient();
-            }
-        }
-        return instance;
-    }
-
-
-    public static void init(InetSocketAddress inetSocketAddress){
+    public void init(InetSocketAddress inetSocketAddress){
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
@@ -58,7 +48,7 @@ public class MyNettyClient<T>{
                             ch.pipeline().addLast(new MyClientHandler());
                         }
                     });
-            future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort());
+            future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).sync();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -66,7 +56,7 @@ public class MyNettyClient<T>{
 
 
 
-    public void newRequest(int opcode, T data, SubRequestSuccess subRequestSuccess) {
+    public static void newRequest(int opcode, Object data, SubRequestSuccess subRequestSuccess) {
         AbstractRequestFactory requestHandler = new RequestHandler();
         RequestCallback response = new RequestCallback(future, subRequestSuccess);
         requestHandler.newRequest(future,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage<RpcRequest>() {
