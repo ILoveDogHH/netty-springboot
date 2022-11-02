@@ -2,10 +2,10 @@ package com.haoxy.client.init;
 
 import com.haoxy.common.code.MyDecoder;
 import com.haoxy.common.code.MyEncoder;
-import com.haoxy.common.message.MessageAbstract;
+import com.haoxy.common.handler.Handler;
+import com.haoxy.common.handler.HandlerExecutorImp;
+import com.haoxy.common.handler.MessageHandler;
 import com.haoxy.common.message.SentMessage;
-import com.haoxy.common.proxy.MyClientHandler;
-import com.haoxy.common.message.RpcRequest;
 import com.haoxy.common.request.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -23,14 +23,21 @@ import java.net.InetSocketAddress;
  * @author yuyufeng
  * @date 2017/8/28
  */
-public class MyNettyClient<T>{
+public enum  MyNettyClient{
+
+    INSTANCE;
+
+
     private static Integer TIMEOUT = 10000;
 
     private static Channel channel;
 
+    private MessageHandler handler;
 
     public void init(InetSocketAddress inetSocketAddress){
         EventLoopGroup group = new NioEventLoopGroup();
+        handler = new MyClientHandler(new HandlerExecutorImp(), new AbstractRequestFactory() {
+        });
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
@@ -42,7 +49,7 @@ public class MyNettyClient<T>{
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new MyEncoder(SentMessage.class));
                             ch.pipeline().addLast(new MyDecoder(SentMessage.class));
-                            ch.pipeline().addLast(new MyClientHandler());
+                            ch.pipeline().addLast(handler);
                         }
                     });
             ChannelFuture future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).sync();
@@ -54,9 +61,9 @@ public class MyNettyClient<T>{
 
 
 
-    public static void newRequest(int opcode, Object data, SubRequestSuccess subRequestSuccess) {
+    public void newRequest(int opcode, Object data, SubRequestSuccess subRequestSuccess) {
         CallbackOnResponse response = new RequestCallback(channel, subRequestSuccess);
-        new AbstractRequestFactory(){}.newRequest(channel,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage<SentMessage>() {
+        handler.factory.newRequest(channel,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage<SentMessage>() {
             @Override
             public void callback(SentMessage message) {
                 channel.writeAndFlush(message);

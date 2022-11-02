@@ -2,7 +2,6 @@ package com.haoxy.client.init;
 
 import com.haoxy.common.code.MyDecoder;
 import com.haoxy.common.code.MyEncoder;
-import com.haoxy.common.proxy.MyClientHandler;
 import com.haoxy.common.message.RpcRequest;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;

@@ -1,5 +1,10 @@
-package com.haoxy.common.proxy;
+package com.haoxy.client.init;
 
+import com.haoxy.common.handler.HandlerExecutor;
+import com.haoxy.common.handler.HandlerExecutorImp;
+import com.haoxy.common.handler.MessageHandler;
+import com.haoxy.common.request.AbstractRequestFactory;
+import com.haoxy.common.request.RequestFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -8,10 +13,13 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @author yuyufeng
  * @date 2017/8/28
  */
-public class MyClientHandler extends ChannelInboundHandlerAdapter {
+public class MyClientHandler extends MessageHandler {
 
     private Object result;
 
+    public MyClientHandler(HandlerExecutor handlerExecutor, RequestFactory factory) {
+        super(handlerExecutor, factory);
+    }
 
 
     public Object getResult() {
