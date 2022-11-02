@@ -1,8 +1,8 @@
 package com.haoxy.server.init;
 
-import com.haoxy.common.proxy.RpcRequest;
-import com.haoxy.common.proxy.RpcResponse;
-import com.haoxy.common.utils.SpringBeanFactory;
+import com.haoxy.common.message.RpcRequest;
+import com.haoxy.common.message.RpcResponse;
+import com.haoxy.common.message.SentMessage;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,7 +15,11 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        RpcRequest rpcRequest = (RpcRequest) msg;
+    	SentMessage message = (SentMessage) msg;
+    	int opcode = message.getOpcode();
+
+
+    	RpcRequest rpcRequest = (RpcRequest) message.getData();
         Class clazz = RpcRegistered.getClass(rpcRequest.getServiceName());
         if (clazz == null) {
             throw new Exception("没有找到类 " + rpcRequest.getServiceName());
