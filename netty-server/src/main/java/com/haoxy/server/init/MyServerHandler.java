@@ -1,7 +1,6 @@
 package com.haoxy.server.init;
 
 import com.haoxy.common.message.RpcRequest;
-import com.haoxy.common.message.RpcResponse;
 import com.haoxy.common.message.SentMessage;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
