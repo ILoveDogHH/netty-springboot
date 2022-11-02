@@ -3,6 +3,7 @@ package com.haoxy.common.request;
 import com.haoxy.common.message.Message;
 import io.netty.channel.Channel;
 
+
 public class RequestCallback<T> implements CallbackOnResponse<T>{
     private SubRequestSuccess callback;
     private Channel channel;

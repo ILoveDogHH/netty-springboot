@@ -2,10 +2,10 @@ package com.haoxy.client.init;
 
 import com.haoxy.common.code.MyDecoder;
 import com.haoxy.common.code.MyEncoder;
-import com.haoxy.common.handler.Handler;
-import com.haoxy.common.handler.HandlerExecutorImp;
 import com.haoxy.common.handler.MessageHandler;
+import com.haoxy.common.message.Message;
 import com.haoxy.common.message.SentMessage;
+
 import com.haoxy.common.request.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -36,7 +36,8 @@ public enum  MyNettyClient{
 
     public void init(InetSocketAddress inetSocketAddress){
         EventLoopGroup group = new NioEventLoopGroup();
-        handler = new MyClientHandler(new HandlerExecutorImp(), new AbstractRequestFactory() {
+
+        handler = new MyClientHandler(new ClientHandlerExecutor(), new AbstractRequestFactory() {
         });
         try {
             Bootstrap b = new Bootstrap();
@@ -63,14 +64,13 @@ public enum  MyNettyClient{
 
     public void newRequest(int opcode, Object data, SubRequestSuccess subRequestSuccess) {
         CallbackOnResponse response = new RequestCallback(channel, subRequestSuccess);
-        handler.factory.newRequest(channel,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage<SentMessage>() {
+        handler.factory.newRequest(channel,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage() {
             @Override
-            public void callback(SentMessage message) {
+            public void callback(Message message) {
                 channel.writeAndFlush(message);
             }
         });
         response.pauseThread();
-        System.out.println("输出下日志");
     }
 
 

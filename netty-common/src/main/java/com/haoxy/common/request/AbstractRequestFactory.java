@@ -20,7 +20,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 		// 消息类型
 		private RequestType type;
 		// 生成出来的消息
-		private SentMessage<T> message;
+		private Message<T> message;
 		// 生成消息时的回调
 		private CallbackOnGetMessage onGetMessage;
 		// 接受到消息之后的回调
@@ -30,7 +30,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 		// 这个消息是不是处理完了
 		private volatile boolean finished = false;
 
-		private RequestMsg(Object creator, RequestType type, SentMessage<T> message, CallbackOnResponse onResponse,
+		private RequestMsg(Object creator, RequestType type, Message<T> message, CallbackOnResponse onResponse,
 				CallbackOnGetMessage onGetMessage) {
 			this.creator = creator;
 			this.type = type;
@@ -243,7 +243,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 	public <T> void newRequest(Object creator, RequestType type, int opcode, T data,
 			CallbackOnResponse onResponse, CallbackOnGetMessage onGetMessage) {
 		int index = getIndexAndIncrement();
-		SentMessage<RpcRequest> message = new SentMessage(index, opcode, data);
+		Message<RpcRequest> message = new SentMessage(index, opcode, data);
 		// 启用线程池来做消息处理
 		try {
 			RequestMsg<T> msg = new RequestMsg(creator, type, message, onResponse, onGetMessage);
