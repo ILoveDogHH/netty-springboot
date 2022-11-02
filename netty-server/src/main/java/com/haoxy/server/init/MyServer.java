@@ -1,9 +1,12 @@
 package com.haoxy.server.init;
 
+import com.haoxy.common.code.MyDecoder;
+import com.haoxy.common.code.MyEncoder;
+import com.haoxy.common.handler.MessageHandler;
+import com.haoxy.common.message.SentMessage;
+import com.haoxy.common.request.AbstractRequestFactory;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
@@ -19,7 +22,13 @@ import java.net.InetSocketAddress;
 @Component
 public class MyServer {
 
+
+
+    private MessageHandler handler;
+
+
     private final static Logger LOGGER = LoggerFactory.getLogger(MyServer.class);
+    
     /**
      * NioEventLoopGroup是一个处理I / O操作的多线程事件循环。 Netty为不同类型的传输提供各种EventLoopGroup实现。
      * 我们在此示例中实现了服务器端应用程序，因此将使用两个NioEventLoopGroup。第一个，通常称为“老板”，接受传入连接。第二个，通常称为“工人”，
@@ -39,13 +48,24 @@ public class MyServer {
      */
     @PostConstruct
     public void start() throws InterruptedException {
+        handler = new MyServerHandler(new ServerHandlerExecutor(), new AbstractRequestFactory() {});
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(boss, work)
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(nettyPort))
                 //保持长连接
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
-                .childHandler(new InitializerServer());
+                .childHandler(new ChannelInitializer() {
+                    @Override
+                    protected void initChannel(Channel channel) throws Exception {
+                        channel.pipeline()
+                                .addLast(new MyEncoder(SentMessage.class))
+                                .addLast(new MyDecoder(SentMessage.class))
+                                //10 秒没发送消息 将IdleStateHandler 添加到 ChannelPipeline 中
+                                //.addLast(new IdleStateHandler(0, 0, 0))
+                                .addLast(handler);
+                    }
+                });
         //绑定并开始接受传入的连接。
         ChannelFuture future = bootstrap.bind().sync();
         if (future.isSuccess()) {
