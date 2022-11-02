@@ -8,6 +8,6 @@ public interface Message<T> {
 
     int getUid();
 
-    T getObj();
+    T getData();
 
 }

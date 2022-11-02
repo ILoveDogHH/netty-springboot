@@ -1,2 +1,8 @@
-package com.haoxy.common.message;public interface Result {
+package com.haoxy.common.message;
+
+public interface Result<T> {
+
+    int getCode();
+
+    T getResult();
 }

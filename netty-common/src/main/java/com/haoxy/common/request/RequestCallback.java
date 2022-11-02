@@ -43,7 +43,7 @@ public class RequestCallback<T> implements CallbackOnResponse<T>{
     @Override
     public void onResponse(Message<?> message) throws Exception {
         try {
-            callback.success(message.getObj());
+            callback.success(message.getData());
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {

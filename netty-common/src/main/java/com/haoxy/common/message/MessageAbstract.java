@@ -42,7 +42,7 @@ public abstract class MessageAbstract<T> implements Message{
     }
 
     @Override
-    public T getObj() {
+    public T getData() {
         return data;
     }
 
