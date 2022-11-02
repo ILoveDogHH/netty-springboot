@@ -1,6 +1,9 @@
 package com.haoxy.common.request;
 
+import com.haoxy.common.message.Message;
 import com.haoxy.common.message.MessageAbstract;
+import com.haoxy.common.message.RpcRequest;
+import com.haoxy.common.message.SentMessage;
 import com.haoxy.common.utils.TimeManager;
 
 import java.util.Queue;
@@ -19,7 +22,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 		// 生成出来的消息
 		private SentMessage<T> message;
 		// 生成消息时的回调
-		private CallbackOnGetMessage<T> onGetMessage;
+		private CallbackOnGetMessage onGetMessage;
 		// 接受到消息之后的回调
 		private CallbackOnResponse onResponse;
 		// 消息开始处理的时间
@@ -28,7 +31,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 		private volatile boolean finished = false;
 
 		private RequestMsg(Object creator, RequestType type, SentMessage<T> message, CallbackOnResponse onResponse,
-				CallbackOnGetMessage<T> onGetMessage) {
+				CallbackOnGetMessage onGetMessage) {
 			this.creator = creator;
 			this.type = type;
 			this.message = message;
@@ -50,7 +53,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 			}
 		}
 
-		private void doResponse(MessageAbstract<?> message) {
+		private void doResponse(Message<?> message) {
 			if (onResponse != null) {
 				try {
 					onResponse.onResponse(message);
@@ -238,12 +241,12 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 	 */
 	@Override
 	public <T> void newRequest(Object creator, RequestType type, int opcode, T data,
-			CallbackOnResponse onResponse, CallbackOnGetMessage<T> onGetMessage) {
+			CallbackOnResponse onResponse, CallbackOnGetMessage onGetMessage) {
 		int index = getIndexAndIncrement();
-		SentMessage<T> message = new SentMessage<>(index, opcode, data);
+		SentMessage<RpcRequest> message = new SentMessage(index, opcode, data);
 		// 启用线程池来做消息处理
 		try {
-			RequestMsg<T> msg = new RequestMsg<>(creator, type, message, onResponse, onGetMessage);
+			RequestMsg<T> msg = new RequestMsg(creator, type, message, onResponse, onGetMessage);
 			if (syncQueueMap.containsKey(creator)) {
 				RequestMsgQueue callbackQueue = syncQueueMap.get(creator);
 				// 拿到callbackQueue的锁, 来更新processingCompleted数据
@@ -284,7 +287,7 @@ public abstract class AbstractRequestFactory<T> implements RequestFactory {
 	 * @return
 	 */
 	@Override
-	public boolean doCallback(MessageAbstract<?> message) {
+	public boolean doCallback(Message<?> message) {
 		if (!requestMap.containsKey(message.getId())) {
 			return true;
 		}

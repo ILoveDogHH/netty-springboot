@@ -1,4 +1,4 @@
-package com.haoxy.common.proxy;
+package com.haoxy.common.message;
 
 /**
  * Created by yuyufeng on 2017/8/28.

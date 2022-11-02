@@ -1,24 +1,24 @@
 package com.haoxy.common.request;
 
-import com.haoxy.common.message.MessageAbstract;
-import io.netty.channel.ChannelFuture;
+import com.haoxy.common.message.Message;
+import io.netty.channel.Channel;
 
-public class RequestCallback<T> implements CallbackOnResponse{
+public class RequestCallback<T> implements CallbackOnResponse<T>{
     private SubRequestSuccess callback;
-    private ChannelFuture future;
+    private Channel channel;
     private volatile boolean endPause = false;
     private final static int MAX_WAIT_MILLIS = 3000;
 
-    public RequestCallback(ChannelFuture future, SubRequestSuccess callback) {
+    public RequestCallback(Channel channel, SubRequestSuccess callback) {
         this.callback = callback;
-        this.future = future;
+        this.channel = channel;
     }
 
     public void resumeThread() {
         endPause = true;
-        if(future != null){
-            synchronized (future) {
-                future.notifyAll();
+        if(channel != null){
+            synchronized (channel) {
+                this.notifyAll();
             }
         }
     }
@@ -27,10 +27,10 @@ public class RequestCallback<T> implements CallbackOnResponse{
         if (endPause) {
             return;
         }
-        if(future != null){
-            synchronized (future) {
+        if(channel != null){
+            synchronized (channel) {
                 try {
-                    future.wait(MAX_WAIT_MILLIS);
+                    this.wait(MAX_WAIT_MILLIS);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -41,7 +41,7 @@ public class RequestCallback<T> implements CallbackOnResponse{
 
 
     @Override
-    public void onResponse(MessageAbstract<?> message) throws Exception {
+    public void onResponse(Message<?> message) throws Exception {
         try {
             callback.success(message.getObj());
         } catch (Throwable e) {
@@ -61,7 +61,7 @@ public class RequestCallback<T> implements CallbackOnResponse{
     @Override
     public void onTimeout() {
         //超时间了直接关闭该session把--
-        future.channel().closeFuture();
+        channel.closeFuture();
     }
 
 

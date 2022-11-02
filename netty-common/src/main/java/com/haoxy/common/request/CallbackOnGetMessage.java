@@ -1,5 +1,7 @@
 package com.haoxy.common.request;
 
-public interface CallbackOnGetMessage<T> {
-	void callback(SentMessage<T> message);
+import com.haoxy.common.message.MessageAbstract;
+
+public interface CallbackOnGetMessage<T extends  MessageAbstract> {
+	void callback(T message);
 }

@@ -13,6 +13,10 @@ public abstract class MessageAbstract<T> implements Message{
 
     public T data;
 
+    public MessageAbstract(){
+
+    }
+
     public MessageAbstract(int id, int opcode, int uid, T data){
         this.id = id;
         this.opcode = opcode;

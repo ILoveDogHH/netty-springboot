@@ -1,6 +1,6 @@
 package com.haoxy.common.request;
 
-import com.haoxy.common.message.MessageAbstract;
+import com.haoxy.common.message.Message;
 
 public interface RequestFactory {
 	/**
@@ -21,7 +21,7 @@ public interface RequestFactory {
 	 *            消息生成之后如何处理
 	 */
 	<T> void newRequest(Object creator, RequestType type, int opcode, T data, CallbackOnResponse onResponse,
-                        CallbackOnGetMessage<T> onGetMessage);
+                        CallbackOnGetMessage onGetMessage);
 
 
 	/**
@@ -30,5 +30,5 @@ public interface RequestFactory {
 	 * @param message
 	 * @return
 	 */
-	boolean doCallback(MessageAbstract<?> message);
+	boolean doCallback(Message<?> message);
 }

@@ -1,8 +1,8 @@
 package com.haoxy.common.request;
 
-import com.haoxy.common.message.MessageAbstract;
+import com.haoxy.common.message.Message;
 
-public interface CallbackOnResponse {
+public interface CallbackOnResponse<T>{
 	/**
 	 * 多少毫秒之后执行onTimeout. </br>
 	 * -1为一直等到response
@@ -16,10 +16,15 @@ public interface CallbackOnResponse {
 	 * @param message
 	 * @throws Exception
 	 */
-	void onResponse(MessageAbstract<?> message) throws Exception;
+	void onResponse(Message<?> message) throws Exception;
 
 	/**
 	 * 超时处理
 	 */
 	void onTimeout();
+
+	/**
+	 * 阻塞线程
+	 */
+	void pauseThread();
 }
