@@ -16,15 +16,8 @@ public class RpcRequest{
     private String localAddress;
 
     private String remoteAddress;
-    private long timeout = 10000; //超时 默认10秒
 
-    public long getTimeout() {
-        return timeout;
-    }
 
-    public void setTimeout(long timeout) {
-        this.timeout = timeout;
-    }
 
     public String getServiceName() {
         return serviceName;
