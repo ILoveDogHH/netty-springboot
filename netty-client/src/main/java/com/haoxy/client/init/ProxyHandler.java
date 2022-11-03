@@ -1,5 +1,7 @@
 package com.haoxy.client.init;
 
+import com.alibaba.fastjson.JSONArray;
+import com.haoxy.common.message.Result;
 import com.haoxy.common.opcode.Opcode;
 import com.haoxy.common.message.RpcRequest;
 import com.haoxy.common.request.SubRequestSuccess;
@@ -26,14 +28,19 @@ public class ProxyHandler implements InvocationHandler {
         rpcRequest.setArguments(args);
         rpcRequest.setParameterTypes(method.getParameterTypes());
         rpcRequest.setReturnType(method.getReturnType());
-        final Object[] result = {};
+        final Object[] result = new Object[1];
         MyNettyClient.INSTANCE.newRequest(Opcode.RPC_REQUEST, rpcRequest, new SubRequestSuccess() {
             @Override
-            public void success(Object data) {
-                result[0] = data;
+            public void success(Result data) {
+                //返回的数据不是error
+                if(data.getCode() == 0){
+                    JSONArray resultArray = (JSONArray) data.getResult();
+                    result[0] = resultArray;
+                }
+
             }
         });
-        return null;
+        return result[0];
     }
 
 }

@@ -1,5 +1,6 @@
 package com.haoxy.client;
 
+import com.alibaba.fastjson.JSONArray;
 import com.haoxy.client.init.MyNettyClient;
 import com.haoxy.client.init.RemoteService;
 import com.haoxy.server.controller.HelloService;
@@ -14,9 +15,9 @@ public class ClientApp {
     public static void main(String[] args) throws InterruptedException {
         SpringApplication.run(ClientApp.class,args);
         MyNettyClient.INSTANCE.init(new InetSocketAddress("127.0.0.1", 11211));
-////        //获取动态代理的HelloService的“真实对象（其实内部不是真实的，被换成了调用远程方法）”
+        //获取动态代理的HelloService的“真实对象（其实内部不是真实的，被换成了调用远程方法）”
         HelloService helloService = RemoteService.newRemoteProxyObject(HelloService.class);
-        String result = helloService.sayHello("yyf");
+        JSONArray result = helloService.sayHello("yyf");
 //        System.out.println(result);
     }
 }

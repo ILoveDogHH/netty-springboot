@@ -28,17 +28,15 @@ public enum  MyNettyClient{
     INSTANCE;
 
 
-    private static Integer TIMEOUT = 10000;
+    private static Integer TIMEOUT = 1000;
 
     private static Channel channel;
 
-    private MessageHandler handler;
+    private RequestFactory factory = new AbstractRequestFactory() {};
 
     public void init(InetSocketAddress inetSocketAddress){
         EventLoopGroup group = new NioEventLoopGroup();
 
-        handler = new MyClientHandler(new ClientHandlerExecutor(), new AbstractRequestFactory() {
-        });
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
@@ -50,7 +48,7 @@ public enum  MyNettyClient{
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new MyEncoder(SentMessage.class));
                             ch.pipeline().addLast(new MyDecoder(SentMessage.class));
-                            ch.pipeline().addLast(handler);
+                            ch.pipeline().addLast(new MyClientHandler(new ClientHandlerExecutor(), factory));
                         }
                     });
             ChannelFuture future = b.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort()).sync();
@@ -64,7 +62,7 @@ public enum  MyNettyClient{
 
     public void newRequest(int opcode, Object data, SubRequestSuccess subRequestSuccess) {
         CallbackOnResponse response = new RequestCallback(channel, subRequestSuccess);
-        handler.factory.newRequest(channel,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage() {
+        factory.newRequest(channel,RequestType.ASYNC, opcode, data, response, new CallbackOnGetMessage() {
             @Override
             public void callback(Message message) {
                 channel.writeAndFlush(message);
