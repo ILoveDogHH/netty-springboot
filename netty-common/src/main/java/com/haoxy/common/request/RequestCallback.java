@@ -1,6 +1,7 @@
 package com.haoxy.common.request;
 
 import com.haoxy.common.message.Message;
+import com.haoxy.common.message.Result;
 import io.netty.channel.Channel;
 
 
@@ -8,7 +9,7 @@ public class RequestCallback<T> implements CallbackOnResponse<T>{
     private SubRequestSuccess callback;
     private Channel channel;
     private volatile boolean endPause = false;
-    private final static int MAX_WAIT_MILLIS = 3000;
+    private final static int MAX_WAIT_MILLIS = 30000;
 
     public RequestCallback(Channel channel, SubRequestSuccess callback) {
         this.callback = callback;
@@ -19,7 +20,7 @@ public class RequestCallback<T> implements CallbackOnResponse<T>{
         endPause = true;
         if(channel != null){
             synchronized (channel) {
-                this.notifyAll();
+                channel.notifyAll();
             }
         }
     }
@@ -31,7 +32,7 @@ public class RequestCallback<T> implements CallbackOnResponse<T>{
         if(channel != null){
             synchronized (channel) {
                 try {
-                    this.wait(MAX_WAIT_MILLIS);
+                    channel.wait(MAX_WAIT_MILLIS);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -42,7 +43,7 @@ public class RequestCallback<T> implements CallbackOnResponse<T>{
 
 
     @Override
-    public void onResponse(Message<?> message) throws Exception {
+    public void onResponse(Message<Result> message) throws Exception {
         try {
             callback.success(message.getData());
         } catch (Throwable e) {

@@ -1,6 +1,7 @@
 package com.haoxy.common.request;
 
 import com.haoxy.common.message.Message;
+import com.haoxy.common.message.Result;
 
 public interface CallbackOnResponse<T>{
 	/**
@@ -16,7 +17,7 @@ public interface CallbackOnResponse<T>{
 	 * @param message
 	 * @throws Exception
 	 */
-	void onResponse(Message<?> message) throws Exception;
+	void onResponse(Message<Result> message) throws Exception;
 
 	/**
 	 * 超时处理
