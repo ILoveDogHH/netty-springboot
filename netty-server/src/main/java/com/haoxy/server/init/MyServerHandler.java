@@ -31,5 +31,6 @@ public class MyServerHandler extends MessageHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.close();
+        System.out.println("关闭一个连接");
     }
 }

@@ -24,7 +24,6 @@ public class MyServer {
 
 
 
-    private MessageHandler handler;
 
 
     private final static Logger LOGGER = LoggerFactory.getLogger(MyServer.class);
@@ -48,7 +47,6 @@ public class MyServer {
      */
     @PostConstruct
     public void start() throws InterruptedException {
-        handler = new MyServerHandler(new ServerHandlerExecutor(), new AbstractRequestFactory() {});
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(boss, work)
                 .channel(NioServerSocketChannel.class)
@@ -63,7 +61,7 @@ public class MyServer {
                                 .addLast(new MyDecoder(SentMessage.class))
                                 //10 秒没发送消息 将IdleStateHandler 添加到 ChannelPipeline 中
                                 //.addLast(new IdleStateHandler(0, 0, 0))
-                                .addLast(handler);
+                                .addLast(new MyServerHandler(new ServerHandlerExecutor(), new AbstractRequestFactory() {}));
                     }
                 });
         //绑定并开始接受传入的连接。

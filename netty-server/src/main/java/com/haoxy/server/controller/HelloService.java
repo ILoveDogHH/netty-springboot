@@ -2,7 +2,9 @@ package com.haoxy.server.controller;
 
 import org.springframework.stereotype.Controller;
 
+import com.alibaba.fastjson.JSONArray;
+
 public interface HelloService {
 
-    String sayHello(String words) throws InterruptedException;
+    JSONArray sayHello(String words) throws InterruptedException;
 }
