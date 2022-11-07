@@ -7,14 +7,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Test {
-    private static Logger logger = LoggerFactory.getLogger(Test.class);
+
+
+
+    private static Logger loggerDebug = LoggerFactory.getLogger("DEBUG");
+    private static Logger loggerINFO = LoggerFactory.getLogger("INFO");
 
 
     public static void main(String[] args){
         SpringApplication.run(Test.class,args);
-        logger.error("测试错误error========================{}");
-        logger.info("测试日志info========================{}", 1);
-        logger.debug("debug");
+//        logger.error("测试错误error========================{}");
+//        logger.info("测试日志info========================{}", 1);
+        loggerDebug.debug("debug234234234");
+        loggerINFO.info("cdscwerwrwrwrw");
     }
 
 }
