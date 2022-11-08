@@ -36,22 +36,7 @@
     </appender>
 
 
-    <!-- info级别日志文件输出 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 日志文件输出的文件名 -->
-        <File>${FILELOG_PATH}/file.log</File>
-    <!--
-       通过rollingPolicy设置日志滚动的策略，这是使用按照时间滚动
-       fileNamePattern属性设置滚动生成文件的格式,这里设置的精确到天，也就是按照天滚动，如果时间设置精确到秒，就按秒来滚动
-       maxHistory属性设定最大的文件数，比如按天滚动，这里设置了30天，在第31天日志生成的时候，第一天的日志就会被删掉
-       -->
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>/logback/log/test-%d{yyyy-MM-dd}.log</fileNamePattern>
-    </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-    </appender>
+
 
     <!-- error级别日志文件输出 -->
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -83,7 +68,6 @@
         <appender-ref ref="DEBUG"/>
         <appender-ref ref="INFO"/>
         <appender-ref ref="ERROR"/>
-        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>
