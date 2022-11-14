@@ -6,7 +6,8 @@ HelloService helloService = RemoteService.newRemoteProxyObject(HelloService.clas
 
 #invoke类具体请求实现。支持通讯阻塞和超时断线处理,获取RPC返回结果
 
-#采用MessageAbstract结构进行协议通讯-- 加密和解密，压缩和解压，粘包问题操作暂时未做处理》
+#采用MessageAbstract结构进行协议通讯-- 加密和解密，压缩和解压，粘包问题操作暂时未做处理
+
 public abstract class MessageAbstract<T> implements Message{
     public int id;
 
