@@ -1,16 +1,5 @@
- # netty-springboot
- springboot + nettyRPC 实现游戏服务器 支出 TCP网络通讯和PRC远程调用，采用protobuf协议通讯。支持PRC调用超时重连，采用logback日志。
-
-#RPC调用方式
-HelloService helloService = RemoteService.newRemoteProxyObject(HelloService.class);
-
-#invoke类具体请求实现。支持通讯阻塞和超时断线处理,获取RPC返回结果
-
-#采用MessageAbstract结构进行协议通讯-- 加密和解密，压缩和解压，粘包问题操作暂时未做处理
-
-
-
-
+## 项目背景 ##
+    RPC（Remote Procedure Call Protocol）远程过程调用协议，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。简言之，RPC使得程序能够像访问本地系统资源一样，去访问远端系统资源。比较关键的一些方面包括：通讯协议、序列化、资源（接口）描述、服务框架、性能、语言支持等。简单的说，RPC就是从一台机器(客户端)上通过参数传递的方式调用另一台机器(服务器)上的一个函数或方法(可以统称为服务)并得到返回的结果。
 
 
 
