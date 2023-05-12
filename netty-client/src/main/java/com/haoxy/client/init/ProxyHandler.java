@@ -29,15 +29,11 @@ public class ProxyHandler implements InvocationHandler {
         rpcRequest.setParameterTypes(method.getParameterTypes());
         rpcRequest.setReturnType(method.getReturnType());
         final Object[] result = new Object[1];
-        MyNettyClient.INSTANCE.newRequest(Opcode.RPC_REQUEST, rpcRequest, new SubRequestSuccess() {
-            @Override
-            public void success(Result data) {
-                //返回的数据不是error
-                if(data.getCode() == 0){
-                    JSONArray resultArray = (JSONArray) data.getResult();
-                    result[0] = resultArray;
-                }
-
+        MyNettyClient.INSTANCE.newRequest(Opcode.RPC_REQUEST, rpcRequest, (Result data)-> {
+            //返回的数据不是error
+            if (data.getCode() == 0) {
+                JSONArray resultArray = (JSONArray) data.getResult();
+                result[0] = resultArray;
             }
         });
         return result[0];

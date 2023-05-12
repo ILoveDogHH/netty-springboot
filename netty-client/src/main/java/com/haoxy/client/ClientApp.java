@@ -3,7 +3,7 @@ package com.haoxy.client;
 import com.alibaba.fastjson.JSONArray;
 import com.haoxy.client.init.MyNettyClient;
 import com.haoxy.client.init.RemoteService;
-import com.haoxy.server.controller.HelloService;
+import com.haoxy.server.RpcService.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

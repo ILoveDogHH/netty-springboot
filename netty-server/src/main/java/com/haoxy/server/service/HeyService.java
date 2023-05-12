@@ -10,8 +10,9 @@ public class HeyService {
 
     @Autowired
     HeyDao heyDao;
-
     public String getHey(){
-        return heyDao.getHey();
+        return heyDao.getHey(123);
     }
 }
+
+

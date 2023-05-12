@@ -9,6 +9,7 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 
 @Component
@@ -60,7 +62,7 @@ public class MyServer {
                                 .addLast(new MyEncoder(SentMessage.class))
                                 .addLast(new MyDecoder(SentMessage.class))
                                 //10 秒没发送消息 将IdleStateHandler 添加到 ChannelPipeline 中
-                                //.addLast(new IdleStateHandler(0, 0, 0))
+                                .addLast(new IdleStateHandler(5, 5, 20, TimeUnit.SECONDS))
                                 .addLast(new MyServerHandler(new ServerHandlerExecutor(), new AbstractRequestFactory() {}));
                     }
                 });

@@ -15,10 +15,10 @@ public class Test {
     private static Logger loggerINFO = LoggerFactory.getLogger("INFO");
 
 
-    public static void main(String[] args){
-        SpringApplication.run(Test.class,args);
-        JLogger.gameLog("E:/github/netty-springboot/netty-common/cc","dddd");
-        System.out.println("提交下");
+    public static void main(String[] args) throws ClassNotFoundException {
+
     }
+
+
 
 }

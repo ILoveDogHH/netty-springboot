@@ -5,9 +5,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-/**
- * Created by yuyufeng on 2017/8/28.
- */
+
 public class MyEncoder  extends MessageToByteEncoder {
     private Class<?> genericClass;
 

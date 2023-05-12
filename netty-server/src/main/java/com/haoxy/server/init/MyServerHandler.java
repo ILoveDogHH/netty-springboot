@@ -27,6 +27,9 @@ public class MyServerHandler extends MessageHandler {
     	handleReceivedMessage(ctx, message);
     }
 
+
+
+
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();

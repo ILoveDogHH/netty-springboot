@@ -17,12 +17,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
 
 
-/**
- * 客户端Netty实现
- *
- * @author yuyufeng
- * @date 2017/8/28
- */
+
 public enum  MyNettyClient{
 
     INSTANCE;

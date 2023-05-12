@@ -1,4 +1,4 @@
-package com.haoxy.server.controller;
+package com.haoxy.server.RpcService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.haoxy.common.message.ResultArray;

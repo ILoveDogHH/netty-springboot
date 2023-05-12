@@ -6,11 +6,7 @@ import com.haoxy.common.message.SentMessage;
 import com.haoxy.common.request.RequestFactory;
 import io.netty.channel.ChannelHandlerContext;
 
-/**
- *  Netty适配器
- * @author yuyufeng
- * @date 2017/8/28
- */
+
 public class MyClientHandler extends MessageHandler {
 
 

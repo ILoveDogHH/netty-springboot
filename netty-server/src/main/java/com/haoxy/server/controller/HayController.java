@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @ResponseBody
-public class Hay {
+public class HayController {
 
     @Autowired
     HeyService heyService;
